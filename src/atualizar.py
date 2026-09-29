@@ -17,6 +17,8 @@ import relatorio
 
 RAIZ = dados.RAIZ
 BASE_CSV = RAIZ / "data" / "processado" / "base_mensal.csv"
+# Juro real neutro de referência (% a.a.), próximo das estimativas recentes do BCB
+R_NEUTRO = 5.0
 
 
 def rodar(base: pd.DataFrame) -> pd.DataFrame:
@@ -24,11 +26,11 @@ def rodar(base: pd.DataFrame) -> pd.DataFrame:
     base["hiato"] = modelos.hiato_hp(base["ibcbr"], unilateral=True)
     taylor = modelos.estimar_taylor(base)
     phillips = modelos.estimar_phillips(base)
-    base["taylor_calibrada"] = modelos.taylor_calibrada(base, r_neutro=5.0)
+    base["taylor_calibrada"] = modelos.taylor_calibrada(base, r_neutro=R_NEUTRO)
     base["taylor_estimada"] = modelos.taylor_estimada(base, taylor)
 
     (RAIZ / "figures").mkdir(exist_ok=True)
-    graficos.painel(base, taylor.juro_real_neutro, RAIZ / "figures" / "painel.png")
+    graficos.painel(base, R_NEUTRO, RAIZ / "figures" / "painel.png")
     relatorio.gerar(base, taylor, phillips, RAIZ / "relatorio.md")
     base.to_csv(RAIZ / "data" / "processado" / "resultados_mensais.csv", float_format="%.4f")
     print(taylor.modelo.summary())

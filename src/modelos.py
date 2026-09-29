@@ -53,22 +53,25 @@ def taylor_calibrada(base: pd.DataFrame, r_neutro: float = 5.0) -> pd.Series:
 def estimar_taylor(base: pd.DataFrame, inicio: str = "2003-07") -> ResultadoTaylor:
     """Regra com suavização, estimada por MQO com erros HAC (Newey-West).
 
-    i_t = c + ρ·i_{t-1} + a·π*_t + b·(Eπ_t − π*_t) + d·hiato_t + ε_t
+    i_t = ρ·i_{t-1} + (1−ρ)·[r* + π*_t + φπ·(Eπ_t − π*_t) + φy·hiato_t] + ε_t
 
-    Coeficientes de longo prazo: φπ = b/(1−ρ) (resposta ao desvio das expectativas),
-    φy = d/(1−ρ). Com a/(1−ρ) ≈ 1, o juro real neutro implícito é c/(1−ρ).
+    Impondo que a meta passe 1 para 1 para o juro no longo prazo, a regra vira
+    uma regressão linear em (i − π*):
+
+    (i_t − π*_t) = c + ρ·(i_{t-1} − π*_t) + b·(Eπ_t − π*_t) + d·hiato_t + ε_t
+
+    com r* = c/(1−ρ), φπ = b/(1−ρ) e φy = d/(1−ρ).
     """
     df = pd.DataFrame(
         {
-            "i": base["selic"],
-            "i_lag": base["selic"].shift(1),
-            "meta": base["meta"],
+            "i_menos_meta": base["selic"] - base["meta"],
+            "i_lag": base["selic"].shift(1) - base["meta"],
             "desvio_expect": base["focus_12m"] - base["meta"],
             "hiato": base["hiato"],
         }
     ).loc[inicio:].dropna()
-    X = sm.add_constant(df[["i_lag", "meta", "desvio_expect", "hiato"]])
-    mod = sm.OLS(df["i"], X).fit(cov_type="HAC", cov_kwds={"maxlags": 12})
+    X = sm.add_constant(df[["i_lag", "desvio_expect", "hiato"]])
+    mod = sm.OLS(df["i_menos_meta"], X).fit(cov_type="HAC", cov_kwds={"maxlags": 12})
     p = mod.params
     um_menos_rho = 1 - p["i_lag"]
     return ResultadoTaylor(
@@ -83,13 +86,12 @@ def estimar_taylor(base: pd.DataFrame, inicio: str = "2003-07") -> ResultadoTayl
 
 def taylor_estimada(base: pd.DataFrame, res: ResultadoTaylor) -> pd.Series:
     """Taxa "desejada" pela regra estimada (sem a inércia): o alvo de longo prazo."""
-    p = res.modelo.params
     alvo = (
-        p["const"]
-        + p["meta"] * base["meta"]
-        + p["desvio_expect"] * (base["focus_12m"] - base["meta"])
-        + p["hiato"] * base["hiato"]
-    ) / (1 - p["i_lag"])
+        base["meta"]
+        + res.juro_real_neutro
+        + res.phi_pi * (base["focus_12m"] - base["meta"])
+        + res.phi_y * base["hiato"]
+    )
     return alvo.rename("taylor_estimada")
 
 

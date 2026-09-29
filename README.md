@@ -21,7 +21,7 @@ atualização automática todo mês.
 |---|---|
 | **Hiato do produto** | Log do IBC-Br dessazonalizado, filtro HP (λ = 129.600). Versão **unilateral**: em cada mês, o filtro só usa dados até aquele mês, como um analista em tempo real. |
 | **Taylor calibrada** | Taylor (1993) com expectativas: $i = r^* + E\pi + 0{,}5(E\pi - \pi^*) + 0{,}5\,\tilde y$, com $r^* = 5\%$. |
-| **Taylor estimada** | $i_t = c + \rho\, i_{t-1} + a\,\pi^*_t + b\,(E_t\pi - \pi^*_t) + d\,\tilde y_t$, MQO com erros HAC (Newey-West), amostra desde jul/2003. Recupera suavização ρ, respostas de longo prazo φπ e φy e o juro real neutro implícito. |
+| **Taylor estimada** | $i_t = \rho\, i_{t-1} + (1-\rho)[r^* + \pi^*_t + \phi_\pi(E_t\pi - \pi^*_t) + \phi_y\tilde y_t]$, estimada na forma linear em $(i - \pi^*)$ por MQO com erros HAC (Newey-West). Recupera a suavização ρ, as respostas de longo prazo φπ e φy e o r* implícito. |
 | **Curva de Phillips** | Trimestral, híbrida: $\pi_t = c + \beta_f E_t\pi + \beta_b\pi_{t-1} + \gamma\tilde y_{t-1} + \delta\Delta e_{t-1}$ + dummies sazonais. Inspirada nos modelos semiestruturais do BCB. |
 
 ### Dados

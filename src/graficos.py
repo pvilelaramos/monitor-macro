@@ -70,10 +70,10 @@ def painel(base: pd.DataFrame, r_neutro: float, destino: Path, inicio: str = "20
     # 1. Selic x regras de Taylor
     ax = eixos[0, 0]
     ax.plot(b.index, b["selic"], color=AZUL, label="Selic efetiva")
-    ax.plot(b.index, b["taylor_calibrada"], color=LARANJA, label="Taylor (1993) calibrada")
-    ax.plot(b.index, b["taylor_estimada"], color=VERDE_AGUA, label="Regra estimada (alvo)")
+    ax.plot(b.index, b["taylor_calibrada"], color=LARANJA, label=f"Regra de Taylor (r* = {r_neutro:.0f}%)")
     _rotulo_final(ax, b["selic"], AZUL)
-    ax.set_title("Selic e regras de Taylor (% a.a.)")
+    _rotulo_final(ax, b["taylor_calibrada"], LARANJA)
+    ax.set_title("Selic e regra de Taylor (% a.a.)")
     ax.legend(loc="best")
 
     # 2. Inflação x meta
@@ -107,7 +107,7 @@ def painel(base: pd.DataFrame, r_neutro: float, destino: Path, inicio: str = "20
     ax = eixos[1, 1]
     real = ((1 + b["selic"] / 100) / (1 + b["focus_12m"] / 100) - 1) * 100
     ax.plot(real.index, real, color=AZUL, label="Selic real ex-ante")
-    ax.axhline(r_neutro, color=LARANJA, lw=2, ls="--", label=f"Juro neutro estimado ({r_neutro:.1f}%)")
+    ax.axhline(r_neutro, color=LARANJA, lw=2, ls="--", label=f"Juro neutro de referência ({r_neutro:.0f}%)")
     _rotulo_final(ax, real, AZUL)
     ax.set_title("Juro real ex-ante: Selic deflacionada pelo Focus (% a.a.)")
     ax.legend(loc="best")
