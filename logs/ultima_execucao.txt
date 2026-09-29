@@ -1,28 +1,65 @@
 SGS 4189 (selic)...
-  tentativa 1/4 falhou: 502 Server Error: Bad Gateway for url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.4189/dados?formato=json&dataInicial=01%2F01%2F2020&dataFinal=29%2F09%2F2026
 SGS 433 (ipca_mensal)...
 SGS 13522 (ipca_12m)...
 SGS 24364 (ibcbr)...
 SGS 1 (cambio)...
 Focus (expectativa IPCA 12m)...
-  tentativa 1/4 falhou: 400 Client Error: Bad Request for url: https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoInflacao12Meses?%24filter=Indicador+eq+%27IPCA%27+and+Suavizada+eq+%27S%27+and+baseCalculo+eq+0&%24select=Data%2CMediana&%24format=json&%24top=100000
-  tentativa 2/4 falhou: 400 Client Error: Bad Request for url: https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoInflacao12Meses?%24filter=Indicador+eq+%27IPCA%27+and+Suavizada+eq+%27S%27+and+baseCalculo+eq+0&%24select=Data%2CMediana&%24format=json&%24top=100000
-  tentativa 3/4 falhou: 400 Client Error: Bad Request for url: https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoInflacao12Meses?%24filter=Indicador+eq+%27IPCA%27+and+Suavizada+eq+%27S%27+and+baseCalculo+eq+0&%24select=Data%2CMediana&%24format=json&%24top=100000
-  tentativa 4/4 falhou: 400 Client Error: Bad Request for url: https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoInflacao12Meses?%24filter=Indicador+eq+%27IPCA%27+and+Suavizada+eq+%27S%27+and+baseCalculo+eq+0&%24select=Data%2CMediana&%24format=json&%24top=100000
-Traceback (most recent call last):
-  File "/home/runner/work/monitor-macro/monitor-macro/src/atualizar.py", line 53, in <module>
-    main()
-  File "/home/runner/work/monitor-macro/monitor-macro/src/atualizar.py", line 46, in main
-    base = dados.montar_base()
-           ^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/monitor-macro/monitor-macro/src/dados.py", line 116, in montar_base
-    series["focus_12m"] = baixar_focus_12m()
-                          ^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/monitor-macro/monitor-macro/src/dados.py", line 82, in baixar_focus_12m
-    r = _get(
-        ^^^^^
-  File "/home/runner/work/monitor-macro/monitor-macro/src/dados.py", line 44, in _get
-    r.raise_for_status()
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/requests/models.py", line 1167, in raise_for_status
-    raise HTTPError(http_error_msg, response=self)
-requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoInflacao12Meses?%24filter=Indicador+eq+%27IPCA%27+and+Suavizada+eq+%27S%27+and+baseCalculo+eq+0&%24select=Data%2CMediana&%24format=json&%24top=100000
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      i   R-squared:                       0.994
+Model:                            OLS   Adj. R-squared:                  0.994
+Method:                 Least Squares   F-statistic:                     5974.
+Date:                Tue, 29 Sep 2026   Prob (F-statistic):          2.73e-241
+Time:                        12:27:16   Log-Likelihood:                -29.803
+No. Observations:                 248   AIC:                             69.61
+Df Residuals:                     243   BIC:                             87.17
+Df Model:                           4                                         
+Covariance Type:                  HAC                                         
+=================================================================================
+                    coef    std err          z      P>|z|      [0.025      0.975]
+---------------------------------------------------------------------------------
+const            -0.0421      0.276     -0.152      0.879      -0.583       0.499
+i_lag             0.9659      0.010     93.537      0.000       0.946       0.986
+meta              0.0524      0.066      0.787      0.431      -0.078       0.183
+desvio_expect     0.2822      0.044      6.452      0.000       0.196       0.368
+hiato             0.0399      0.012      3.285      0.001       0.016       0.064
+==============================================================================
+Omnibus:                        4.582   Durbin-Watson:                   0.664
+Prob(Omnibus):                  0.101   Jarque-Bera (JB):                5.774
+Skew:                           0.091   Prob(JB):                       0.0557
+Kurtosis:                       3.725   Cond. No.                         119.
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 12 lags and without small sample correction
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:               inflacao   R-squared:                       0.365
+Model:                            OLS   Adj. R-squared:                  0.304
+Method:                 Least Squares   F-statistic:                     13.84
+Date:                Tue, 29 Sep 2026   Prob (F-statistic):           2.54e-11
+Time:                        12:27:16   Log-Likelihood:                -82.353
+No. Observations:                  82   AIC:                             180.7
+Df Residuals:                      74   BIC:                             200.0
+Df Model:                           7                                         
+Covariance Type:                  HAC                                         
+================================================================================
+                   coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------
+const            0.9449      0.444      2.130      0.033       0.075       1.815
+expectativa      0.1999      0.498      0.401      0.688      -0.777       1.177
+inflacao_lag     0.3758      0.144      2.604      0.009       0.093       0.659
+hiato_lag       -0.0238      0.028     -0.836      0.403      -0.080       0.032
+cambio_lag       0.0140      0.013      1.055      0.291      -0.012       0.040
+T_2             -0.6793      0.155     -4.397      0.000      -0.982      -0.376
+T_3             -0.8111      0.264     -3.071      0.002      -1.329      -0.293
+T_4              0.0917      0.246      0.374      0.709      -0.389       0.573
+==============================================================================
+Omnibus:                        9.007   Durbin-Watson:                   1.978
+Prob(Omnibus):                  0.011   Jarque-Bera (JB):               20.979
+Skew:                           0.006   Prob(JB):                     2.78e-05
+Kurtosis:                       5.478   Cond. No.                         57.4
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 4 lags and without small sample correction
