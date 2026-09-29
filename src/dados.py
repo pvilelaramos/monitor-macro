@@ -19,7 +19,7 @@ SERIES_SGS = {
     "ipca_mensal": 433,  # IPCA, variação mensal (%)
     "ipca_12m": 13522,   # IPCA acumulado em 12 meses (%)
     "ibcbr": 24364,      # IBC-Br com ajuste sazonal (índice)
-    "cambio": 3698,      # R$/US$ PTAX venda, média do mês
+    "cambio": 1,         # R$/US$ PTAX venda, diária (vira média do mês)
 }
 
 URL_SGS = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.{codigo}/dados"
@@ -66,7 +66,7 @@ def baixar_sgs(codigo: int, inicio: date = INICIO, fim: date | None = None) -> p
                 "dataFinal": fim_janela.strftime("%d/%m/%Y"),
             },
         )
-        dados = r.json()
+        dados = r.json() if r.text.strip() else []
         if dados:
             partes.append(pd.DataFrame(dados))
         ini = date(fim_janela.year + 1, 1, 1)

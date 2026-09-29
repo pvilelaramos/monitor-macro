@@ -32,7 +32,7 @@ atualização automática todo mês.
 | IPCA, variação mensal | BCB/SGS | 433 |
 | IPCA, acumulado em 12 meses | BCB/SGS | 13522 |
 | IBC-Br dessazonalizado | BCB/SGS | 24364 |
-| Câmbio R$/US$ (PTAX venda, média mensal) | BCB/SGS | 3698 |
+| Câmbio R$/US$ (PTAX venda, média mensal da diária) | BCB/SGS | 1 |
 | Expectativa de IPCA 12 meses (mediana, suavizada) | BCB/Focus (Olinda) | – |
 | Meta de inflação e tolerância | CMN | [`data/metas_inflacao.csv`](data/metas_inflacao.csv) |
 
