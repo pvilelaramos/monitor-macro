@@ -6,7 +6,7 @@ on:
   workflow_dispatch:         # botão "Run workflow" na aba Actions
   push:
     branches: [main]
-    paths: ["src/**", "data/metas_inflacao.csv", ".github/workflows/atualizar.yml"]
+    paths: ["src/**", "tests/**", "data/metas_inflacao.csv", ".github/workflows/atualizar.yml"]
 
 permissions:
   contents: write
@@ -15,9 +15,9 @@ jobs:
   atualizar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -28,12 +28,16 @@ jobs:
         run: python -m pytest -q tests/
 
       - name: Baixar dados e rodar modelos
-        run: python src/atualizar.py
+        run: |
+          mkdir -p logs
+          set -o pipefail
+          python src/atualizar.py 2>&1 | tee logs/ultima_execucao.txt
 
       - name: Salvar resultados
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processado figures relatorio.md
-          git diff --cached --quiet || git commit -m "Atualização mensal: $(date +%Y-%m)"
+          git add -A data/processado figures relatorio.md logs
+          git diff --cached --quiet || git commit -m "Atualização automática: $(date +%Y-%m-%d)"
           git push

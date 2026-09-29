@@ -28,16 +28,23 @@ URL_FOCUS = (
     "ExpectativasMercadoInflacao12Meses"
 )
 INICIO = date(2000, 1, 1)
+# Algumas APIs do governo recusam requisições sem User-Agent de navegador
+CABECALHOS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+    "Accept": "application/json",
+}
 
 
 def _get(url: str, params: dict, tentativas: int = 4) -> requests.Response:
     """GET com novas tentativas: a API do BCB às vezes devolve erro passageiro."""
     for i in range(tentativas):
         try:
-            r = requests.get(url, params=params, timeout=60)
+            r = requests.get(url, params=params, headers=CABECALHOS, timeout=60)
             r.raise_for_status()
             return r
-        except requests.RequestException:
+        except requests.RequestException as erro:
+            print(f"  tentativa {i + 1}/{tentativas} falhou: {erro}", flush=True)
             if i == tentativas - 1:
                 raise
             time.sleep(5 * (i + 1))
@@ -101,7 +108,11 @@ def metas_mensais(indice: pd.DatetimeIndex) -> pd.DataFrame:
 
 def montar_base() -> pd.DataFrame:
     """Baixa tudo e devolve a base mensal usada pelos modelos."""
-    series = {nome: baixar_sgs(cod) for nome, cod in SERIES_SGS.items()}
+    series = {}
+    for nome, cod in SERIES_SGS.items():
+        print(f"SGS {cod} ({nome})...", flush=True)
+        series[nome] = baixar_sgs(cod)
+    print("Focus (expectativa IPCA 12m)...", flush=True)
     series["focus_12m"] = baixar_focus_12m()
     base = pd.DataFrame(series)
     base = base.join(metas_mensais(base.index))
