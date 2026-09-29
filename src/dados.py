@@ -38,18 +38,22 @@ CABECALHOS = {
 }
 
 
-def _get(url: str, params: dict, tentativas: int = 4) -> requests.Response:
-    """GET com novas tentativas: a API do BCB às vezes devolve erro passageiro."""
+def _get(url: str, params: dict, tentativas: int = 6):
+    """GET que devolve o JSON já lido, com novas tentativas.
+
+    A API do BCB às vezes responde 5xx ou uma página de erro com status 200;
+    nos dois casos esperamos e tentamos de novo.
+    """
     for i in range(tentativas):
         try:
             r = requests.get(url, params=params or None, headers=CABECALHOS, timeout=60)
             r.raise_for_status()
-            return r
-        except requests.RequestException as erro:
-            print(f"  tentativa {i + 1}/{tentativas} falhou: {erro}", flush=True)
+            return r.json() if r.text.strip() else []
+        except (requests.RequestException, ValueError) as erro:
+            print(f"  tentativa {i + 1}/{tentativas} falhou: {str(erro)[:150]}", flush=True)
             if i == tentativas - 1:
                 raise
-            time.sleep(5 * (i + 1))
+            time.sleep(10 * (i + 1))
     raise RuntimeError("inalcançável")
 
 
@@ -60,7 +64,7 @@ def baixar_sgs(codigo: int, inicio: date = INICIO, fim: date | None = None) -> p
     ini = inicio
     while ini <= fim:
         fim_janela = min(date(ini.year + 9, 12, 31), fim)
-        r = _get(
+        dados = _get(
             URL_SGS.format(codigo=codigo),
             {
                 "formato": "json",
@@ -68,7 +72,6 @@ def baixar_sgs(codigo: int, inicio: date = INICIO, fim: date | None = None) -> p
                 "dataFinal": fim_janela.strftime("%d/%m/%Y"),
             },
         )
-        dados = r.json() if r.text.strip() else []
         if dados:
             partes.append(pd.DataFrame(dados))
         ini = date(fim_janela.year + 1, 1, 1)
@@ -84,7 +87,7 @@ def baixar_focus_12m() -> pd.Series:
     # OData exige espaços como %20 (o requests usaria "+"), então a URL é montada aqui
     filtro = quote("Indicador eq 'IPCA' and Suavizada eq 'S'")
     url = f"{URL_FOCUS}?$filter={filtro}&$format=json&$top=100000"
-    df = pd.DataFrame(_get(url, {}).json()["value"])
+    df = pd.DataFrame(_get(url, {})["value"])
     if "baseCalculo" in df.columns:
         df = df[df["baseCalculo"] == 0]
     df["Data"] = pd.to_datetime(df["Data"])

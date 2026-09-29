@@ -45,9 +45,15 @@ def main() -> None:
     if args.offline:
         base = pd.read_csv(BASE_CSV, index_col="data", parse_dates=True)
     else:
-        base = dados.montar_base()
-        BASE_CSV.parent.mkdir(parents=True, exist_ok=True)
-        base.to_csv(BASE_CSV, float_format="%.4f")
+        try:
+            base = dados.montar_base()
+            BASE_CSV.parent.mkdir(parents=True, exist_ok=True)
+            base.to_csv(BASE_CSV, float_format="%.4f")
+        except Exception as erro:  # noqa: BLE001
+            if not BASE_CSV.exists():
+                raise
+            print(f"AVISO: coleta falhou ({erro}); usando a última base salva.", flush=True)
+            base = pd.read_csv(BASE_CSV, index_col="data", parse_dates=True)
     rodar(base)
 
 
