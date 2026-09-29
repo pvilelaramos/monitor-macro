@@ -8,6 +8,8 @@ import time
 from datetime import date
 from pathlib import Path
 
+from urllib.parse import quote
+
 import pandas as pd
 import requests
 
@@ -40,7 +42,7 @@ def _get(url: str, params: dict, tentativas: int = 4) -> requests.Response:
     """GET com novas tentativas: a API do BCB às vezes devolve erro passageiro."""
     for i in range(tentativas):
         try:
-            r = requests.get(url, params=params, headers=CABECALHOS, timeout=60)
+            r = requests.get(url, params=params or None, headers=CABECALHOS, timeout=60)
             r.raise_for_status()
             return r
         except requests.RequestException as erro:
@@ -79,18 +81,14 @@ def baixar_sgs(codigo: int, inicio: date = INICIO, fim: date | None = None) -> p
 
 def baixar_focus_12m() -> pd.Series:
     """Mediana da expectativa de IPCA 12 meses à frente (suavizada), média mensal."""
-    r = _get(
-        URL_FOCUS,
-        {
-            "$filter": "Indicador eq 'IPCA' and Suavizada eq 'S' and baseCalculo eq 0",
-            "$select": "Data,Mediana",
-            "$format": "json",
-            "$top": 100000,
-        },
-    )
-    df = pd.DataFrame(r.json()["value"])
+    # OData exige espaços como %20 (o requests usaria "+"), então a URL é montada aqui
+    filtro = quote("Indicador eq 'IPCA' and Suavizada eq 'S'")
+    url = f"{URL_FOCUS}?$filter={filtro}&$format=json&$top=100000"
+    df = pd.DataFrame(_get(url, {}).json()["value"])
+    if "baseCalculo" in df.columns:
+        df = df[df["baseCalculo"] == 0]
     df["Data"] = pd.to_datetime(df["Data"])
-    return df.set_index("Data")["Mediana"].sort_index().resample("MS").mean()
+    return df.groupby("Data")["Mediana"].mean().sort_index().resample("MS").mean()
 
 
 def metas_mensais(indice: pd.DatetimeIndex) -> pd.DataFrame:
