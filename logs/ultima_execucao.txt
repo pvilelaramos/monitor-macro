@@ -1,7 +1,7 @@
 SGS 4189 (selic)...
-  tentativa 1/6 falhou: 502 Server Error: Bad Gateway for url: https://api.bcb.gov.br/dados/serie/bcdata.sgs.4189/dados?formato=json&dataInicial=01%2F01%2F2010&dataFinal=31%2
 SGS 433 (ipca_mensal)...
 SGS 13522 (ipca_12m)...
+  tentativa 1/6 falhou: Expecting value: line 1 column 1 (char 0)
 SGS 24364 (ibcbr)...
 SGS 1 (cambio)...
 Focus (expectativa IPCA 12m)...
@@ -10,8 +10,8 @@ Focus (expectativa IPCA 12m)...
 Dep. Variable:           i_menos_meta   R-squared:                       0.994
 Model:                            OLS   Adj. R-squared:                  0.994
 Method:                 Least Squares   F-statistic:                     6203.
-Date:                Tue, 29 Sep 2026   Prob (F-statistic):          5.78e-230
-Time:                        12:37:14   Log-Likelihood:                -29.921
+Date:                Thu, 15 Oct 2026   Prob (F-statistic):          5.78e-230
+Time:                        12:19:48   Log-Likelihood:                -29.921
 No. Observations:                 248   AIC:                             67.84
 Df Residuals:                     244   BIC:                             81.90
 Df Model:                           3                                         
@@ -34,31 +34,31 @@ Notes:
 [1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 12 lags and without small sample correction
                             OLS Regression Results                            
 ==============================================================================
-Dep. Variable:               inflacao   R-squared:                       0.365
-Model:                            OLS   Adj. R-squared:                  0.304
-Method:                 Least Squares   F-statistic:                     13.84
-Date:                Tue, 29 Sep 2026   Prob (F-statistic):           2.54e-11
-Time:                        12:37:14   Log-Likelihood:                -82.353
-No. Observations:                  82   AIC:                             180.7
-Df Residuals:                      74   BIC:                             200.0
+Dep. Variable:               inflacao   R-squared:                       0.370
+Model:                            OLS   Adj. R-squared:                  0.312
+Method:                 Least Squares   F-statistic:                     14.04
+Date:                Thu, 15 Oct 2026   Prob (F-statistic):           1.71e-11
+Time:                        12:19:48   Log-Likelihood:                -82.926
+No. Observations:                  83   AIC:                             181.9
+Df Residuals:                      75   BIC:                             201.2
 Df Model:                           7                                         
 Covariance Type:                  HAC                                         
 ================================================================================
                    coef    std err          z      P>|z|      [0.025      0.975]
 --------------------------------------------------------------------------------
-const            0.9449      0.444      2.130      0.033       0.075       1.815
-expectativa      0.1999      0.498      0.401      0.688      -0.777       1.177
-inflacao_lag     0.3758      0.144      2.604      0.009       0.093       0.659
-hiato_lag       -0.0238      0.028     -0.836      0.403      -0.080       0.032
-cambio_lag       0.0140      0.013      1.055      0.291      -0.012       0.040
-T_2             -0.6793      0.155     -4.397      0.000      -0.982      -0.376
-T_3             -0.8111      0.264     -3.071      0.002      -1.329      -0.293
-T_4              0.0917      0.246      0.374      0.709      -0.389       0.573
+const            0.9296      0.440      2.114      0.035       0.068       1.791
+expectativa      0.2170      0.491      0.442      0.658      -0.744       1.178
+inflacao_lag     0.3723      0.142      2.621      0.009       0.094       0.651
+hiato_lag       -0.0231      0.029     -0.807      0.419      -0.079       0.033
+cambio_lag       0.0143      0.013      1.077      0.282      -0.012       0.040
+T_2             -0.6775      0.155     -4.381      0.000      -0.981      -0.374
+T_3             -0.8228      0.256     -3.216      0.001      -1.324      -0.321
+T_4              0.0899      0.245      0.367      0.714      -0.390       0.570
 ==============================================================================
-Omnibus:                        9.007   Durbin-Watson:                   1.978
-Prob(Omnibus):                  0.011   Jarque-Bera (JB):               20.979
-Skew:                           0.006   Prob(JB):                     2.78e-05
-Kurtosis:                       5.478   Cond. No.                         57.4
+Omnibus:                        9.236   Durbin-Watson:                   1.978
+Prob(Omnibus):                  0.010   Jarque-Bera (JB):               22.017
+Skew:                           0.022   Prob(JB):                     1.66e-05
+Kurtosis:                       5.523   Cond. No.                         57.2
 ==============================================================================
 
 Notes:

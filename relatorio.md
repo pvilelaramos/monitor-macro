@@ -1,6 +1,6 @@
 # Relatório do monitor macro
 
-*Gerado automaticamente em 29/09/2026.*
+*Gerado automaticamente em 15/10/2026.*
 
 ![Painel](figures/painel.png)
 
@@ -8,12 +8,12 @@
 
 | Indicador | Valor | Referência |
 |---|---:|---:|
-| Selic efetiva (% a.a.) | 13.79 | 09/2026 |
-| IPCA 12 meses (%) | 4.22 | 08/2026 |
-| Expectativa Focus 12m (%) | 4.61 | 09/2026 |
-| Meta de inflação (%) | 3.00 | 09/2026 |
+| Selic efetiva (% a.a.) | 13.65 | 10/2026 |
+| IPCA 12 meses (%) | 4.58 | 09/2026 |
+| Expectativa Focus 12m (%) | 4.55 | 10/2026 |
+| Meta de inflação (%) | 3.00 | 10/2026 |
 | Hiato do produto (%) | -1.58 | 07/2026 |
-| Juro real ex-ante (% a.a.) | 8.77 | 09/2026 |
+| Juro real ex-ante (% a.a.) | 8.71 | 10/2026 |
 | Regra de Taylor, r* = 5% (% a.a.) | 8.95 | 07/2026 |
 | Regra estimada, alvo (% a.a.) | 11.70 | 07/2026 |
 | Selic − regra de Taylor (p.p.) | 5.20 | 07/2026 |
@@ -57,18 +57,18 @@ só neste relatório.
 
 ## Curva de Phillips (trimestral)
 
-Amostra 2006Q1 a 2026Q2, com dummies sazonais.
+Amostra 2006Q1 a 2026Q3, com dummies sazonais.
 $\pi_t = c + \beta_f E_t\pi_{t+1} + \beta_b\,\pi_{t-1} + \gamma\,\tilde y_{t-1} + \delta\,\Delta e_{t-1} + \varepsilon_t$
 
 | Variável | Coeficiente | Erro-padrão (HAC) | p-valor |
 |---|---:|---:|---:|
-| Constante | 0.945 | 0.444 | 0.033 |
-| Expectativa (βf) | 0.200 | 0.498 | 0.688 |
-| Inflação defasada (βb) | 0.376 | 0.144 | 0.009 |
-| Hiato defasado (γ) | -0.024 | 0.028 | 0.403 |
-| Δ câmbio defasado (δ) | 0.014 | 0.013 | 0.291 |
+| Constante | 0.930 | 0.440 | 0.035 |
+| Expectativa (βf) | 0.217 | 0.491 | 0.658 |
+| Inflação defasada (βb) | 0.372 | 0.142 | 0.009 |
+| Hiato defasado (γ) | -0.023 | 0.029 | 0.419 |
+| Δ câmbio defasado (δ) | 0.014 | 0.013 | 0.282 |
 
-R² = 0.365 · N = 82
+R² = 0.370 · N = 83
 
-Soma βf + βb = 0.58
+Soma βf + βb = 0.59
 (próximo de 1 indica curva vertical no longo prazo).
