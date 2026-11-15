@@ -1,7 +1,6 @@
 SGS 4189 (selic)...
 SGS 433 (ipca_mensal)...
 SGS 13522 (ipca_12m)...
-  tentativa 1/6 falhou: Expecting value: line 1 column 1 (char 0)
 SGS 24364 (ibcbr)...
 SGS 1 (cambio)...
 Focus (expectativa IPCA 12m)...
@@ -9,25 +8,25 @@ Focus (expectativa IPCA 12m)...
 ==============================================================================
 Dep. Variable:           i_menos_meta   R-squared:                       0.994
 Model:                            OLS   Adj. R-squared:                  0.994
-Method:                 Least Squares   F-statistic:                     6203.
-Date:                Thu, 15 Oct 2026   Prob (F-statistic):          5.78e-230
-Time:                        12:19:48   Log-Likelihood:                -29.921
-No. Observations:                 248   AIC:                             67.84
-Df Residuals:                     244   BIC:                             81.90
+Method:                 Least Squares   F-statistic:                     6272.
+Date:                Sun, 15 Nov 2026   Prob (F-statistic):          2.83e-231
+Time:                        12:28:06   Log-Likelihood:                -29.785
+No. Observations:                 249   AIC:                             67.57
+Df Residuals:                     245   BIC:                             81.64
 Df Model:                           3                                         
 Covariance Type:                  HAC                                         
 =================================================================================
                     coef    std err          z      P>|z|      [0.025      0.975]
 ---------------------------------------------------------------------------------
-const             0.0393      0.068      0.576      0.565      -0.094       0.173
-i_lag             0.9653      0.010     92.997      0.000       0.945       0.986
-desvio_expect     0.2786      0.046      6.070      0.000       0.189       0.369
-hiato             0.0382      0.013      3.016      0.003       0.013       0.063
+const             0.0404      0.068      0.592      0.554      -0.093       0.174
+i_lag             0.9650      0.010     93.298      0.000       0.945       0.985
+desvio_expect     0.2784      0.046      6.060      0.000       0.188       0.368
+hiato             0.0382      0.013      3.017      0.003       0.013       0.063
 ==============================================================================
-Omnibus:                        4.396   Durbin-Watson:                   0.661
-Prob(Omnibus):                  0.111   Jarque-Bera (JB):                5.361
-Skew:                           0.101   Prob(JB):                       0.0685
-Kurtosis:                       3.692   Cond. No.                         15.3
+Omnibus:                        4.461   Durbin-Watson:                   0.661
+Prob(Omnibus):                  0.107   Jarque-Bera (JB):                5.426
+Skew:                           0.107   Prob(JB):                       0.0663
+Kurtosis:                       3.691   Cond. No.                         15.3
 ==============================================================================
 
 Notes:
@@ -36,29 +35,29 @@ Notes:
 ==============================================================================
 Dep. Variable:               inflacao   R-squared:                       0.370
 Model:                            OLS   Adj. R-squared:                  0.312
-Method:                 Least Squares   F-statistic:                     14.04
-Date:                Thu, 15 Oct 2026   Prob (F-statistic):           1.71e-11
-Time:                        12:19:48   Log-Likelihood:                -82.926
-No. Observations:                  83   AIC:                             181.9
+Method:                 Least Squares   F-statistic:                     14.05
+Date:                Sun, 15 Nov 2026   Prob (F-statistic):           1.67e-11
+Time:                        12:28:06   Log-Likelihood:                -82.922
+No. Observations:                  83   AIC:                             181.8
 Df Residuals:                      75   BIC:                             201.2
 Df Model:                           7                                         
 Covariance Type:                  HAC                                         
 ================================================================================
                    coef    std err          z      P>|z|      [0.025      0.975]
 --------------------------------------------------------------------------------
-const            0.9296      0.440      2.114      0.035       0.068       1.791
-expectativa      0.2170      0.491      0.442      0.658      -0.744       1.178
-inflacao_lag     0.3723      0.142      2.621      0.009       0.094       0.651
-hiato_lag       -0.0231      0.029     -0.807      0.419      -0.079       0.033
-cambio_lag       0.0143      0.013      1.077      0.282      -0.012       0.040
-T_2             -0.6775      0.155     -4.381      0.000      -0.981      -0.374
-T_3             -0.8228      0.256     -3.216      0.001      -1.324      -0.321
-T_4              0.0899      0.245      0.367      0.714      -0.390       0.570
+const            0.9309      0.440      2.116      0.034       0.069       1.793
+expectativa      0.2159      0.491      0.440      0.660      -0.746       1.178
+inflacao_lag     0.3724      0.142      2.621      0.009       0.094       0.651
+hiato_lag       -0.0233      0.029     -0.813      0.416      -0.079       0.033
+cambio_lag       0.0142      0.013      1.075      0.282      -0.012       0.040
+T_2             -0.6779      0.155     -4.383      0.000      -0.981      -0.375
+T_3             -0.8232      0.256     -3.217      0.001      -1.325      -0.322
+T_4              0.0897      0.245      0.366      0.714      -0.391       0.570
 ==============================================================================
-Omnibus:                        9.236   Durbin-Watson:                   1.978
-Prob(Omnibus):                  0.010   Jarque-Bera (JB):               22.017
-Skew:                           0.022   Prob(JB):                     1.66e-05
-Kurtosis:                       5.523   Cond. No.                         57.2
+Omnibus:                        9.232   Durbin-Watson:                   1.978
+Prob(Omnibus):                  0.010   Jarque-Bera (JB):               21.999
+Skew:                           0.023   Prob(JB):                     1.67e-05
+Kurtosis:                       5.522   Cond. No.                         57.3
 ==============================================================================
 
 Notes:
